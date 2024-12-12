@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, Subject, zip } from 'rxjs';
+import {  map, Observable, zip } from 'rxjs';
 import { PipesData } from '../../interfaces/pipes-data';
 import { Pipe } from '../../interfaces/pipe';
 import { CamerasData } from '../../interfaces/cameras-data';
 import { Camera } from '../../interfaces/camera';
-import { AISUSStatusData } from '../../interfaces/aisus-status-data';
-import { URLService } from '../aisus-status/url/url.service';
+import { environment } from '../../../environments/environment';
+import { AISUSStatus, AISUSStatusService } from '../../modules/openapi';
 
 @Injectable({
     providedIn: 'root',
@@ -16,13 +16,13 @@ export class AppInitService {
     private pipes: Pipe[] = [];
     private aisusInitialized: boolean = false;
 
-    constructor(private http: HttpClient, private url: URLService) { }
+    constructor(private http: HttpClient, private aisusStatusService: AISUSStatusService) { }
 
     public loadAppData(): Observable<boolean> {
         return zip(
-            this.http.get<PipesData>(this.url.http('pipes_data')),
-            this.http.get<CamerasData>(this.url.http('cameras_data')),
-            this.http.get<AISUSStatusData>(this.url.http('aisus_status'))
+            this.http.get<PipesData>(`${environment.httpBasePath}/pipes_data`),
+            this.http.get<CamerasData>(`${environment.httpBasePath}/cameras_data`),
+            this.aisusStatusService.statusGet()
         ).pipe(
             map(([pipesData, camerasData, aisusStatusData]) => {
                 this.pipes = pipesData.pipes;

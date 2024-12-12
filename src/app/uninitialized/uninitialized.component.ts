@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AISUSStatusService } from '../services/aisus-status/aisus-status.service';
 import { AppInitService } from '../services/app-init/app-init.service';
 import { Router } from '@angular/router';
 import { interval, switchMap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AISUSStatusService } from '../modules/openapi';
 
 @UntilDestroy()
 @Component({
@@ -16,7 +16,7 @@ export class UninitializedComponent {
 
     public ngOnInit(): void {
         interval(5000).pipe(
-            switchMap(() => this.aisusStatusService.isAISUSInitialized())
+            switchMap(() => this.aisusStatusService.statusGet())
         ).pipe(
             untilDestroyed(this)
         ).subscribe(data => {
@@ -27,7 +27,9 @@ export class UninitializedComponent {
     }
 
     public initializeAISUS(): void {
-        this.aisusStatusService.initializeAISUS().pipe(
+        this.aisusStatusService.statusPut({
+            initialized: true
+        }).pipe(
             switchMap(() => this.appInitService.loadAppData())
         )
         .subscribe(() => {

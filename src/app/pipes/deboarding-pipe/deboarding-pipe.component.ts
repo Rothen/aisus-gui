@@ -34,7 +34,7 @@ export class DeboardingPipeComponent {
             switchMap((params: any) => {
                 this.pipeId = params['pipe_id'];
                 this.display = params['display'];
-                return this.deboardingPipesService.deboardingPipesDeboardingPipeIdGet(this.pipeId);
+                return this.deboardingPipesService.deboardingPipesIdGet(this.pipeId);
             }),
             untilDestroyed(this)
         ).subscribe(data => this.pipeData = data);

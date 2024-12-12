@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbAccordionModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideHttpClient } from '@angular/common/http';
-import { ApiModule, BASE_PATH } from './modules/openapi';
+import { AISUSStatusService, ApiModule, BASE_PATH } from './modules/openapi';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
@@ -45,7 +45,6 @@ import { ModelingEngineDemoComponent } from './system/modeling-engine-demo/model
 import { OverviewComponent } from './system/overview/overview.component';
 import { UninitializedComponent } from './uninitialized/uninitialized.component';
 import { AppInitService } from './services/app-init/app-init.service';
-import { URLService } from './services/aisus-status/url/url.service';
 
 export function initializeApp(appInitService: AppInitService) {
     return () => appInitService.loadAppData();
@@ -105,11 +104,11 @@ export function initializeApp(appInitService: AppInitService) {
     ],
     providers: [{
             provide: BASE_PATH,
-            useValue: environment.httpbasePath
+            useValue: environment.httpBasePath
     }, {
         provide: APP_INITIALIZER,
         useFactory: initializeApp,
-        deps: [AppInitService, URLService],
+        deps: [AppInitService, AISUSStatusService],
         multi: true,
     },
         provideHttpClient()

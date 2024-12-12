@@ -1,5 +1,5 @@
 export const environment = {
-    httpbasePath: 'http://localhost:5000',
+    httpBasePath: 'http://localhost:5000',
     wsBasePath: 'ws://localhost:5000',
     server: {
         host: 'localhost',

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { WebsocketService } from '../websocket/websocket.service';
 import { DeboardingPlotData } from '../../interfaces/deboarding-plot-data';
 import { Observable } from 'rxjs';
-import { URLService } from '../aisus-status/url/url.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DeboardingPlotStream {
-    constructor(private ws: WebsocketService<DeboardingPlotData>, private url: URLService) { }
+    constructor(private ws: WebsocketService<DeboardingPlotData>) { }
 
     public connectToMessages(pipeId: number): Observable<DeboardingPlotData> {
-        return this.ws.connectToMessages(this.url.ws(`stream_deboarding_plot_data/${pipeId}`));
+        return this.ws.connectToMessages(`${environment.wsBasePath}/stream_deboarding_plot_data/${pipeId}`);
     }
 
     public disconnect(): void {

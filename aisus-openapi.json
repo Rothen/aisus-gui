@@ -1,5 +1,62 @@
 {
   "paths": {
+    "/status/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AISUSStatus"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get the status of AISUS",
+        "tags": [
+          "AISUS Status"
+        ]
+      },
+      "put": {
+        "responses": {
+          "422": {
+            "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AISUSStatus"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AISUSStatus"
+              }
+            }
+          }
+        },
+        "summary": "Get the status of AISUS",
+        "tags": [
+          "AISUS Status"
+        ]
+      }
+    },
     "/cameras/": {
       "get": {
         "responses": {
@@ -22,11 +79,11 @@
         },
         "summary": "List all cameras",
         "tags": [
-          "cameras"
+          "Cameras"
         ]
       }
     },
-    "/cameras/{camera_id}": {
+    "/cameras/{id}": {
       "get": {
         "responses": {
           "200": {
@@ -45,13 +102,13 @@
         },
         "summary": "Get a specific camera by ID",
         "tags": [
-          "cameras"
+          "Cameras"
         ]
       },
       "parameters": [
         {
           "in": "path",
-          "name": "camera_id",
+          "name": "id",
           "required": true,
           "schema": {
             "type": "string",
@@ -60,7 +117,195 @@
         }
       ]
     },
-    "/deboarding_pipes/": {
+    "/area-clearance-pipes/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AreaClearancePipe"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Area Clearance Pipes",
+        "tags": [
+          "Area Clearance Pipes"
+        ]
+      }
+    },
+    "/area-clearance-pipes/table-data/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AreaClearancePipeTableData"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Area Clearance Pipes",
+        "tags": [
+          "Area Clearance Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/area-clearance-pipes/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AreaClearancePipe"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific Area Clearance Pipe by ID",
+        "tags": [
+          "Area Clearance Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/boarding-pipes/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoardingPipe"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Boarding Pipes",
+        "tags": [
+          "Boarding Pipes"
+        ]
+      }
+    },
+    "/boarding-pipes/table-data/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardingPipeTableData"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Boarding Pipes",
+        "tags": [
+          "Boarding Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/boarding-pipes/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardingPipe"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific Boarding Pipe by ID",
+        "tags": [
+          "Boarding Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/deboarding-pipes/": {
       "get": {
         "responses": {
           "200": {
@@ -82,11 +327,11 @@
         },
         "summary": "List all Deboarding Pipes",
         "tags": [
-          "deboarding_pipes"
+          "Deboarding Pipes"
         ]
       }
     },
-    "/deboarding_pipes/table-data/{deboarding_pipe_id}": {
+    "/deboarding-pipes/table-data/{id}": {
       "get": {
         "responses": {
           "200": {
@@ -105,13 +350,13 @@
         },
         "summary": "List all Deboarding Pipes",
         "tags": [
-          "deboarding_pipes"
+          "Deboarding Pipes"
         ]
       },
       "parameters": [
         {
           "in": "path",
-          "name": "deboarding_pipe_id",
+          "name": "id",
           "required": true,
           "schema": {
             "type": "integer",
@@ -120,7 +365,7 @@
         }
       ]
     },
-    "/deboarding_pipes/{deboarding_pipe_id}": {
+    "/deboarding-pipes/{id}": {
       "get": {
         "responses": {
           "200": {
@@ -139,13 +384,201 @@
         },
         "summary": "Get a specific Deboarding Pipe by ID",
         "tags": [
-          "deboarding_pipes"
+          "Deboarding Pipes"
         ]
       },
       "parameters": [
         {
           "in": "path",
-          "name": "deboarding_pipe_id",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/lateral-sway-pipes/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LateralSwayPipe"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Lateral Sway Pipes",
+        "tags": [
+          "Lateral Sway Pipes"
+        ]
+      }
+    },
+    "/lateral-sway-pipes/table-data/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LateralSwayPipeTableData"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Lateral Sway Pipes",
+        "tags": [
+          "Lateral Sway Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/lateral-sway-pipes/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LateralSwayPipe"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific Lateral Sway Pipe by ID",
+        "tags": [
+          "Lateral Sway Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/occupancy-plan-pipes/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OccupancyPlanPipe"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Occupancy Plan Pipes",
+        "tags": [
+          "Occupancy Plan Pipes"
+        ]
+      }
+    },
+    "/occupancy-plan-pipes/table-data/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OccupancyPlanPipeTableData"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Occupancy Plan Pipes",
+        "tags": [
+          "Occupancy Plan Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/occupancy-plan-pipes/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OccupancyPlanPipe"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific Occupancy Plan Pipe by ID",
+        "tags": [
+          "Occupancy Plan Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
           "required": true,
           "schema": {
             "type": "integer",
@@ -161,12 +594,32 @@
   },
   "tags": [
     {
-      "name": "cameras",
+      "name": "AISUS Status",
+      "description": "Operations on AISUS status"
+    },
+    {
+      "name": "Cameras",
       "description": "Operations on cameras"
     },
     {
-      "name": "deboarding_pipes",
+      "name": "Area Clearance Pipes",
+      "description": "Operations on Area Clearance Pipes"
+    },
+    {
+      "name": "Boarding Pipes",
+      "description": "Operations on Boarding Pipes"
+    },
+    {
+      "name": "Deboarding Pipes",
       "description": "Operations on Deboarding Pipes"
+    },
+    {
+      "name": "Lateral Sway Pipes",
+      "description": "Operations on Lateral Sway Pipes"
+    },
+    {
+      "name": "Occupancy Plan Pipes",
+      "description": "Operations on Occupancy Plan Pipes"
     }
   ],
   "openapi": "3.0.2",
@@ -220,6 +673,18 @@
           }
         }
       },
+      "AISUSStatus": {
+        "type": "object",
+        "properties": {
+          "initialized": {
+            "type": "boolean",
+            "description": "Whether AISUS is initialized"
+          }
+        },
+        "required": [
+          "initialized"
+        ]
+      },
       "Camera": {
         "type": "object",
         "properties": {
@@ -235,6 +700,97 @@
         "required": [
           "id",
           "name"
+        ]
+      },
+      "AreaClearancePipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the Area Clearance Pipe"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "AreaClearancePipeTableData": {
+        "type": "object",
+        "properties": {
+          "some_int": {
+            "type": "integer",
+            "description": "Some integer"
+          },
+          "id": {
+            "type": "integer",
+            "description": "ID of the Area Clearance Pipe"
+          },
+          "mock_field": {
+            "type": "string",
+            "description": "Mock field"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp"
+          }
+        },
+        "required": [
+          "id",
+          "mock_field",
+          "some_int",
+          "timestamp"
+        ]
+      },
+      "BoardingPipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the boarding pipe"
+          },
+          "max_tol_vehicle_offset": {
+            "type": "number",
+            "description": "Maximum tolerance for vehicle offset"
+          },
+          "test": {
+            "type": "array",
+            "description": "Test field",
+            "items": {}
+          }
+        },
+        "required": [
+          "id",
+          "max_tol_vehicle_offset",
+          "test"
+        ]
+      },
+      "BoardingPipeTableData": {
+        "type": "object",
+        "properties": {
+          "some_int": {
+            "type": "integer",
+            "description": "Some integer"
+          },
+          "id": {
+            "type": "integer",
+            "description": "ID of the boarding pipe"
+          },
+          "mock_field": {
+            "type": "string",
+            "description": "Mock field"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp"
+          }
+        },
+        "required": [
+          "id",
+          "mock_field",
+          "some_int",
+          "timestamp"
         ]
       },
       "DeboardingPipe": {
@@ -267,7 +823,7 @@
             "type": "integer",
             "description": "Some integer"
           },
-          "deboarding_pipe_id": {
+          "id": {
             "type": "integer",
             "description": "ID of the deboarding pipe"
           },
@@ -282,7 +838,109 @@
           }
         },
         "required": [
-          "deboarding_pipe_id",
+          "id",
+          "mock_field",
+          "some_int",
+          "timestamp"
+        ]
+      },
+      "LateralSwayPipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the lateral sway pipe"
+          },
+          "max_tol_vehicle_offset": {
+            "type": "number",
+            "description": "Maximum tolerance for vehicle offset"
+          },
+          "test": {
+            "type": "array",
+            "description": "Test field",
+            "items": {}
+          }
+        },
+        "required": [
+          "id",
+          "max_tol_vehicle_offset",
+          "test"
+        ]
+      },
+      "LateralSwayPipeTableData": {
+        "type": "object",
+        "properties": {
+          "some_int": {
+            "type": "integer",
+            "description": "Some integer"
+          },
+          "id": {
+            "type": "integer",
+            "description": "ID of the lateral sway pipe"
+          },
+          "mock_field": {
+            "type": "string",
+            "description": "Mock field"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp"
+          }
+        },
+        "required": [
+          "id",
+          "mock_field",
+          "some_int",
+          "timestamp"
+        ]
+      },
+      "OccupancyPlanPipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the occupancy-plan pipe"
+          },
+          "max_tol_vehicle_offset": {
+            "type": "number",
+            "description": "Maximum tolerance for vehicle offset"
+          },
+          "test": {
+            "type": "array",
+            "description": "Test field",
+            "items": {}
+          }
+        },
+        "required": [
+          "id",
+          "max_tol_vehicle_offset",
+          "test"
+        ]
+      },
+      "OccupancyPlanPipeTableData": {
+        "type": "object",
+        "properties": {
+          "some_int": {
+            "type": "integer",
+            "description": "Some integer"
+          },
+          "id": {
+            "type": "integer",
+            "description": "ID of the occupancy-plan pipe"
+          },
+          "mock_field": {
+            "type": "string",
+            "description": "Mock field"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp"
+          }
+        },
+        "required": [
+          "id",
           "mock_field",
           "some_int",
           "timestamp"
@@ -292,6 +950,16 @@
     "responses": {
       "DEFAULT_ERROR": {
         "description": "Default error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "UNPROCESSABLE_ENTITY": {
+        "description": "Unprocessable Entity",
         "content": {
           "application/json": {
             "schema": {

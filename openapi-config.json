@@ -20,7 +20,6 @@
         ".gitignore",
         ".openapi-generator-ignore",
         "git_push.sh",
-        "index.ts",
         ".openapi-generator"
     ]
 }

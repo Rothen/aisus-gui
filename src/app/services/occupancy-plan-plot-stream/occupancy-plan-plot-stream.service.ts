@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { WebsocketService } from '../websocket/websocket.service';
 import { OccupancyPlanPlotData } from '../../interfaces/occupancy-plan-plot-data';
 import { Observable } from 'rxjs';
-import { URLService } from '../aisus-status/url/url.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class OccupancyPlanPlotStream {
-    constructor(private ws: WebsocketService<OccupancyPlanPlotData>, private url: URLService) { }
+    constructor(private ws: WebsocketService<OccupancyPlanPlotData>) { }
 
     public connectToMessages(pipeId: number): Observable<OccupancyPlanPlotData> {
-        return this.ws.connectToMessages(this.url.ws(`stream_occupancy_plan_plot_data/${pipeId}`));
+        return this.ws.connectToMessages(`${environment.wsBasePath}/stream_occupancy_plan_plot_data/${pipeId}`);
     }
 
     public disconnect(): void {
