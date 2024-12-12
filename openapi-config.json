@@ -1,0 +1,26 @@
+{
+    "generatorName": "typescript-angular",
+    "inputSpec": "./aisus-openapi.json",
+    "output": "./src/app/modules/openapi",
+    "generateAliasAsModel": true,
+    "configOptions": {
+        "fileNaming": "kebab-case",
+        "withInterfaces": true
+    },
+    "additionalProperties": {
+        "hideGenerationTimestamp": true,
+        "swaggerAnnotations": false,
+        "performBeanValidation": true
+    },
+    "globalProperties": {
+        "skipFormModel": "true"
+    },
+    "openapiGeneratorIgnoreList": [
+        "README.md",
+        ".gitignore",
+        ".openapi-generator-ignore",
+        "git_push.sh",
+        "index.ts",
+        ".openapi-generator"
+    ]
+}

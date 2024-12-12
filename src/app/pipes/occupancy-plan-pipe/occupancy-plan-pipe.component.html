@@ -1,0 +1,13 @@
+<div class="split-view">
+    <div class="main-output">
+        <div [ngSwitch]="display">
+            <div *ngSwitchDefault></div>
+            <app-occupancy-plan-camera *ngSwitchCase="'camera'" [pipeId]="pipeId"></app-occupancy-plan-camera>
+            <app-people-height-plot *ngSwitchCase="'people_height_plot'" [pipeId]="pipeId"></app-people-height-plot>
+        </div>
+    </div>
+
+    <div class="info-table">
+        <app-occupancy-plan-table [pipeId]="pipeId"></app-occupancy-plan-table>
+    </div>
+</div>

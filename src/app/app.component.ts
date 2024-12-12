@@ -1,10 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { AISUSStatusService } from './services/aisus-status/aisus-status.service';
+import { interval, switchMap } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'gui';
+export class AppComponent implements OnInit {
+    public title = 'GUI';
+    public active = 'top';
+
+    constructor(public router: Router, public location: Location, private aisusStatusService: AISUSStatusService) {
+        interval(5000).pipe(
+            switchMap(() => this.aisusStatusService.isAISUSInitialized())
+        ).pipe(
+            untilDestroyed(this)
+        ).subscribe(data => {
+            if (!data.initialized) {
+                this.router.navigate(['/uninitialized']);
+            }
+        });
+    }
+
+    public ngOnInit() { }
 }

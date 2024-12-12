@@ -1,0 +1,6 @@
+<div id="plots_container">
+    <app-line-plot #tFactorPlot title="T-Factor" yAxisTitle="T-Factor" [yMin]="0" [yMax]="1"></app-line-plot>
+    <app-line-plot #vFactorPlot title="V-Factor" yAxisTitle="V-Factor" [yMin]="0"></app-line-plot>
+    <app-line-plot #projectedLocationPlot title="Projected Location" yAxisTitle="Projected Location" [yMin]="0" [yMax]="1"></app-line-plot>
+    <app-line-plot *ngIf="maxTolVehicleOffset != Infinity" #tolVehicleOffsetPlot title="Tol. Vehicle Offset" yAxisTitle="Tol. Vehicle Offset" [yMin]="0" [yMax]="maxTolVehicleOffset"></app-line-plot>
+</div>

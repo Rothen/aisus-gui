@@ -1,0 +1,20 @@
+<table *ngIf="tableData" class="table">
+    <tbody>
+        <tr>
+            <td>Some Int</td>
+            <td>{{tableData.some_int}}</td>
+        </tr>
+        <tr>
+            <td>Pipe ID</td>
+            <td>{{tableData.deboarding_pipe_id}}</td>
+        </tr>
+        <tr>
+            <td>Some Int</td>
+            <td>{{tableData.mock_field}}</td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <td>{{tableData.timestamp | date:'dd.MM.yyyy HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,305 @@
+{
+  "paths": {
+    "/cameras/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Camera"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all cameras",
+        "tags": [
+          "cameras"
+        ]
+      }
+    },
+    "/cameras/{camera_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Camera"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific camera by ID",
+        "tags": [
+          "cameras"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "camera_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "/deboarding_pipes/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeboardingPipe"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Deboarding Pipes",
+        "tags": [
+          "deboarding_pipes"
+        ]
+      }
+    },
+    "/deboarding_pipes/table-data/{deboarding_pipe_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeboardingPipeTableData"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Deboarding Pipes",
+        "tags": [
+          "deboarding_pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "deboarding_pipe_id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/deboarding_pipes/{deboarding_pipe_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeboardingPipe"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific Deboarding Pipe by ID",
+        "tags": [
+          "deboarding_pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "deboarding_pipe_id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    }
+  },
+  "info": {
+    "title": "AISUS API",
+    "version": "1.0"
+  },
+  "tags": [
+    {
+      "name": "cameras",
+      "description": "Operations on cameras"
+    },
+    {
+      "name": "deboarding_pipes",
+      "description": "Operations on Deboarding Pipes"
+    }
+  ],
+  "openapi": "3.0.2",
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Error code"
+          },
+          "status": {
+            "type": "string",
+            "description": "Error name"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "errors": {
+            "type": "object",
+            "description": "Errors",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "PaginationMetadata": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer"
+          },
+          "total_pages": {
+            "type": "integer"
+          },
+          "first_page": {
+            "type": "integer"
+          },
+          "last_page": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "previous_page": {
+            "type": "integer"
+          },
+          "next_page": {
+            "type": "integer"
+          }
+        }
+      },
+      "Camera": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the camera"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the camera"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "DeboardingPipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the deboarding pipe"
+          },
+          "max_tol_vehicle_offset": {
+            "type": "number",
+            "description": "Maximum tolerance for vehicle offset"
+          },
+          "test": {
+            "type": "array",
+            "description": "Test field",
+            "items": {}
+          }
+        },
+        "required": [
+          "id",
+          "max_tol_vehicle_offset",
+          "test"
+        ]
+      },
+      "DeboardingPipeTableData": {
+        "type": "object",
+        "properties": {
+          "some_int": {
+            "type": "integer",
+            "description": "Some integer"
+          },
+          "deboarding_pipe_id": {
+            "type": "integer",
+            "description": "ID of the deboarding pipe"
+          },
+          "mock_field": {
+            "type": "string",
+            "description": "Mock field"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp"
+          }
+        },
+        "required": [
+          "deboarding_pipe_id",
+          "mock_field",
+          "some_int",
+          "timestamp"
+        ]
+      }
+    },
+    "responses": {
+      "DEFAULT_ERROR": {
+        "description": "Default error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+<div class="parent">
+    <div class="left">
+        <ul ngbNav #nav="ngbNav" class="nav-tabs main-nav" [activeId]="location.path().split('/')[2]">
+            <li ngbNavItem="system">
+                <a ngbNavLink routerLink="/aisus/system">System</a>
+                <ng-template ngbNavContent>
+                    <div class="list-group list-group-flush">
+                        <a routerLink="/aisus/system/overview" routerLinkActive="active"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Overview
+                        </a>
+                        <a routerLink="/aisus/system/hardware" routerLinkActive="active"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Hardware
+                        </a>
+                        <a routerLink="/aisus/system/image_quality" routerLinkActive="active"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Image Quality
+                        </a>
+                        <a routerLink="/aisus/system/latency" routerLinkActive="active"
+                            class="list-group-item list-group-item-action active" aria-current="true">
+                            Latency
+                        </a>
+                        <a routerLink="/aisus/system/events" routerLinkActive="active"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Events
+                        </a>
+                        <a routerLink="/aisus/system/calibration" routerLinkActive="active"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Calibration
+                        </a>
+                        <a routerLink="/aisus/system/modeling_engine_demo" routerLinkActive="active"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Modeling Engine Demo
+                        </a>
+                        <a routerLink="/aisus/system/log" routerLinkActive="active" class="list-group-item list-group-item-action"
+                            aria-current="true">
+                            Log
+                        </a>
+                    </div>
+                </ng-template>
+            </li>
+            <li *ngIf="cameras.length > 0" ngbNavItem="cameras">
+                <a routerLink="/aisus/cameras/{{cameras[0].id}}" ngbNavLink>Cameras</a>
+                <ng-template ngbNavContent>
+                    <div class="list-group list-group-flush">
+                        <a *ngFor="let camera of cameras" routerLink="/aisus/cameras/{{camera.id}}"
+                            class="list-group-item list-group-item-action" routerLinkActive="active" aria-current="true">
+                            {{camera.name}}
+                        </a>
+                    </div>
+                </ng-template>
+            </li>
+            <li *ngIf="pipes.length > 0" ngbNavItem="pipes">
+                <a routerLink="/aisus/pipes/{{pipes[0].type}}/{{pipes[0].id}}" ngbNavLink>Pipes</a>
+                <ng-template ngbNavContent>
+                    <div class="list-group list-group-flush">
+                        <ng-container *ngFor="let pipe of pipes">
+                            <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}"
+                                class="list-group-item list-group-item-action main-title" routerLinkActive="active"
+                                aria-current="true">
+                                {{pipe.name}}
+                            </a>
+                            <ng-container *ngFor="let camera of pipe.cameras">
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/camera/{{camera.id}}"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    {{camera.name}}
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="pipe.type === 'deboarding';else lateral_sway">
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/positional_plots"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    Positional Plots
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/projection_plots"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    Projection Plots
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/3d_view"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    3D View
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/r_factor_deviation_plot"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    R-Factor Deviation
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/s_factor_deviation_plot"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    S-Factor Deviation
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/t_factor_deviation_plot"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    T-Factor Deviation
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/u_factor_deviation_plot"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    U-Factor Deviation
+                                </a>
+                                <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/v_factor_deviation_plot"
+                                    class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                    aria-current="true">
+                                    V-Factor Deviation
+                                </a>
+                            </ng-container>
+                            <ng-template #lateral_sway>
+                                <ng-container *ngIf="pipe.type === 'lateral_sway';else occupancy_plan"></ng-container>
+                            </ng-template>
+                            <ng-template #occupancy_plan>
+                                <ng-container *ngIf="pipe.type === 'occupancy_plan';else undefined_pipe">
+                                    <a routerLink="/aisus/pipes/{{pipe.type}}/{{pipe.id}}/people_height_plot"
+                                        class="list-group-item list-group-item-action sub-title" routerLinkActive="active"
+                                        aria-current="true">
+                                        People's Height
+                                    </a>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #undefined_pipe>
+
+                            </ng-template>
+                        </ng-container>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="nav-outlet">
+        </div>
+    </div>
+
+    <div class="center">
+        <router-outlet></router-outlet>
+    </div>
+</div>

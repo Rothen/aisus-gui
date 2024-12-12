@@ -1,0 +1,9 @@
+<div id="plots_container" class="narrow">
+    <ng-container *ngIf="deviationData">
+        <app-deviation-plot #deviationPlot
+            title="U-Factor Deviation"
+            yAxisTitle="U-Factor Deviation"
+            [deviationData]="deviationData"
+        ></app-deviation-plot>
+    </ng-container>
+</div>
