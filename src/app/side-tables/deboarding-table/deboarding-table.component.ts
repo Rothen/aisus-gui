@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { TableDataService } from '../../services/data-stream/table-data.service';
-import { DeboardingTableData } from '../../interfaces/deboarding-table-data';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, timer } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
