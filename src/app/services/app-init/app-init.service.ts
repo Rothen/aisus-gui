@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {  map, Observable, zip } from 'rxjs';
-import { PipesData } from '../../interfaces/pipes-data';
-import { Pipe } from '../../interfaces/pipe';
-import { CamerasData } from '../../interfaces/cameras-data';
-import { Camera } from '../../interfaces/camera';
-import { environment } from '../../../environments/environment';
-import { AISUSStatus, AISUSStatusService } from '../../modules/openapi';
+import { AISUSStatus, AISUSStatusService, Camera, CamerasService, Pipe, PipesService } from '../../modules/openapi';
 
 @Injectable({
     providedIn: 'root',
@@ -14,20 +9,20 @@ import { AISUSStatus, AISUSStatusService } from '../../modules/openapi';
 export class AppInitService {
     private cameras: Camera[] = [];
     private pipes: Pipe[] = [];
-    private aisusInitialized: boolean = false;
+    private aisusStatus: AISUSStatus = { initialized: false };
 
-    constructor(private http: HttpClient, private aisusStatusService: AISUSStatusService) { }
+    constructor(private http: HttpClient, private pipesService: PipesService, private camerasService: CamerasService, private aisusStatusService: AISUSStatusService) { }
 
     public loadAppData(): Observable<boolean> {
         return zip(
-            this.http.get<PipesData>(`${environment.httpBasePath}/pipes_data`),
-            this.http.get<CamerasData>(`${environment.httpBasePath}/cameras_data`),
+            this.pipesService.pipesGet(),
+            this.camerasService.camerasGet(),
             this.aisusStatusService.statusGet()
         ).pipe(
             map(([pipesData, camerasData, aisusStatusData]) => {
-                this.pipes = pipesData.pipes;
-                this.cameras = camerasData.cameras;
-                this.aisusInitialized = aisusStatusData.initialized;
+                this.pipes = pipesData;
+                this.cameras = camerasData;
+                this.aisusStatus = aisusStatusData;
 
                 for (const pipe of this.pipes) {
                     pipe.type = pipe.type.replace(/([a-zA-Z])(?=[A-Z])/g, '$1_').toLowerCase();
@@ -47,6 +42,6 @@ export class AppInitService {
     }
 
     public isAISUSInitialized() {
-        return this.aisusInitialized;
+        return this.aisusStatus.initialized;
     }
 }

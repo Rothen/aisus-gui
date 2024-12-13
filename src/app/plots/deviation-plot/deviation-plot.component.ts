@@ -3,7 +3,7 @@ import 'chartjs-adapter-date-fns';
 import autocolors from 'chartjs-plugin-autocolors';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { deviationBand } from './deviation-band'
-import { DeviationData } from '../../interfaces/deviation-data';
+import { DeviationBands } from '../../modules/openapi';
 
 interface BoundDataset {
     type: string;
@@ -26,14 +26,14 @@ export class DeviationPlotComponent implements OnInit{
     @Input() xMin: any;
     @Input() xMax: any;
     @Input() data: any[] = [];
-    @Input({ required: true }) deviationData: DeviationData | null;
+    @Input({ required: true }) deviationBands: DeviationBands;
 
     public chart: Chart;
 
     constructor() { }
 
     public ngOnInit(): void {
-        if (this.deviationData == null) {
+        if (this.deviationBands == null) {
             return;
         }
         const datasets = [{
@@ -53,8 +53,8 @@ export class DeviationPlotComponent implements OnInit{
         let minY = Infinity;
         let maxY = -Infinity;
 
-        for (let b = 0; b < this.deviationData.bands.length; b++) {
-            const band = this.deviationData.bands[b];
+        for (let b = 0; b < this.deviationBands.bands.length; b++) {
+            const band = this.deviationBands.bands[b];
             const upperBoundDataset: {type: string; label: string; borderColor: string; data: { x: number; y: number; }[]; pointStyle: string | boolean; } = {
                 type: 'line',
                 label: 'false',
@@ -69,13 +69,13 @@ export class DeviationPlotComponent implements OnInit{
                 data: [],
                 pointStyle: false
             };
-            for (let i = 0; i < this.deviationData.xs.length; i++) {
+            for (let i = 0; i < this.deviationBands.xs.length; i++) {
                 upperBoundDataset.data.push({
-                    x: this.deviationData.xs[i],
+                    x: this.deviationBands.xs[i],
                     y: band.upper[i]
                 });
                 lowerBoundDataset.data.push({
-                    x: this.deviationData.xs[i],
+                    x: this.deviationBands.xs[i],
                     y: band.lower[i]
                 });
 

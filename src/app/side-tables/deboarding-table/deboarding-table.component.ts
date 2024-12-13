@@ -21,7 +21,7 @@ export class DeboardingTableComponent {
 
     public ngOnInit(): void {
         timer(0, 1000).pipe(
-            switchMap(() => this.deboardingPipesService.deboardingPipesTableDataIdGet(this.pipeId))
+            switchMap(() => this.deboardingPipesService.deboardingPipesPipeIdTableDataGet(this.pipeId))
         ).pipe(
             untilDestroyed(this)
         ).subscribe(tableData => this.tableData = tableData);

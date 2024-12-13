@@ -4,7 +4,7 @@ import { LinePlotComponent } from '../../../plots/line-plot/line-plot.component'
 import { DeboardingPlotData } from '../../../interfaces/deboarding-plot-data';
 import { Chart, ChartDataset } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ChartsJsService } from '../../../services/chart-js/charts-js.service';
 import { PhaseOutputKey } from '../../../interfaces/phase_output';
@@ -29,17 +29,7 @@ export class PositionalPlotsComponent implements OnInit {
     constructor(private route: ActivatedRoute, private deboardingPlotStream: DeboardingPlotStream, private chartJsService: ChartsJsService) { }
 
     public ngOnInit(): void {
-        if (this.route.parent == null) {
-            return;
-        }
-
-        this.route.parent.params.pipe(
-            map(params => params['pipe_id']),
-            untilDestroyed(this),
-            switchMap((pipeId) => {
-                this.pipeId = pipeId as number;
-                return this.deboardingPlotStream.connectToMessages(this.pipeId);
-            }),
+        this.deboardingPlotStream.connectToMessages(this.pipeId).pipe(
             untilDestroyed(this)
         ).subscribe(data => {
             this.updateChartData(data);

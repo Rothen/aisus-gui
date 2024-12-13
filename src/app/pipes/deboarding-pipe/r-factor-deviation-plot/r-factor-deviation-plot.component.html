@@ -1,9 +1,9 @@
 <div id="plots_container" class="narrow">
-    <ng-container *ngIf="deviationData">
+    <ng-container *ngIf="deviationBands">
         <app-deviation-plot #deviationPlot
             title="R-Factor Deviation"
             yAxisTitle="R-Factor Deviation"
-            [deviationData]="deviationData"
+            [deviationBands]="deviationBands"
         ></app-deviation-plot>
     </ng-container>
 </div>

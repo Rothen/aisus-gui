@@ -1,13 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DeviationPlotComponent } from '../../../plots/deviation-plot/deviation-plot.component';
-import { DeviationData } from '../../../interfaces/deviation-data';
-import { switchMap } from 'rxjs';
 import { DeboardingPlotStream } from '../../../services/deboarding-plot-stream/deboarding-plot-stream.service';
-import { DeviationDataService } from '../../../services/deviation-data/deviation-data.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DeboardingPlotData } from '../../../interfaces/deboarding-plot-data';
 import { PhaseOutputKey } from '../../../interfaces/phase_output';
 import { DeboardingPipeData } from '../../../interfaces/deboarding_pipe_data';
+import { DeviationBands } from '../../../modules/openapi';
 
 @UntilDestroy()
 @Component({
@@ -19,19 +17,14 @@ export abstract class FactorDeviationPlotBaseComponent implements OnInit {
 
     @Input({ required: true }) pipeId: number;
     @Input({ required: true }) pipeData: DeboardingPipeData;
+    @Input({ required: true }) deviationBands: DeviationBands;
 
     protected abstract factor: PhaseOutputKey;
-    public deviationData: DeviationData | null = null;
 
-    constructor(private deboardingPlotStream: DeboardingPlotStream, private deviationDataService: DeviationDataService) { }
+    constructor(private deboardingPlotStream: DeboardingPlotStream) { }
 
     public ngOnInit(): void {
-        this.deviationDataService.getDeviationData(this.pipeId, this.factor).pipe(
-            untilDestroyed(this),
-            switchMap(data => {
-                this.deviationData = data;
-                return this.deboardingPlotStream.connectToMessages(this.pipeId);
-            }),
+        this.deboardingPlotStream.connectToMessages(this.pipeId).pipe(
             untilDestroyed(this)
         ).subscribe(data => {
             this.updateChartData(data);

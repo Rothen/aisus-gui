@@ -1,4 +1,4 @@
-<div class="split-view">
+<div *ngIf="pipeData != null" class="split-view">
     <div class="main-output">
         <div [ngSwitch]="display">
             <div *ngSwitchDefault></div>
@@ -6,11 +6,11 @@
             <app-projection-plots *ngSwitchCase="'projection_plots'" [pipeData]="pipeData" [pipeId]="pipeId"></app-projection-plots>
             <app-positional-plots *ngSwitchCase="'positional_plots'" [pipeData]="pipeData" [pipeId]="pipeId"></app-positional-plots>
             <app-three-d-view *ngSwitchCase="'3d_view'" [pipeData]="pipeData" [pipeId]="pipeId"></app-three-d-view>
-            <app-r-factor-deviation-plot *ngSwitchCase="'r_factor_deviation_plot'" [pipeData]="pipeData" [pipeId]="pipeId"></app-r-factor-deviation-plot>
-            <app-s-factor-deviation-plot *ngSwitchCase="'s_factor_deviation_plot'" [pipeData]="pipeData" [pipeId]="pipeId"></app-s-factor-deviation-plot>
-            <app-t-factor-deviation-plot *ngSwitchCase="'t_factor_deviation_plot'" [pipeData]="pipeData" [pipeId]="pipeId"></app-t-factor-deviation-plot>
-            <app-u-factor-deviation-plot *ngSwitchCase="'u_factor_deviation_plot'" [pipeData]="pipeData" [pipeId]="pipeId"></app-u-factor-deviation-plot>
-            <app-v-factor-deviation-plot *ngSwitchCase="'v_factor_deviation_plot'" [pipeData]="pipeData" [pipeId]="pipeId"></app-v-factor-deviation-plot>
+            <app-r-factor-deviation-plot *ngSwitchCase="'r_factor_deviation_plot'" [pipeData]="pipeData" [deviationBands]="pipeData.r_factor_deviation_bands" [pipeId]="pipeId"></app-r-factor-deviation-plot>
+            <app-s-factor-deviation-plot *ngSwitchCase="'s_factor_deviation_plot'" [pipeData]="pipeData" [deviationBands]="pipeData.s_factor_deviation_bands" [pipeId]="pipeId"></app-s-factor-deviation-plot>
+            <app-t-factor-deviation-plot *ngSwitchCase="'t_factor_deviation_plot'" [pipeData]="pipeData" [deviationBands]="pipeData.t_factor_deviation_bands" [pipeId]="pipeId"></app-t-factor-deviation-plot>
+            <app-u-factor-deviation-plot *ngSwitchCase="'u_factor_deviation_plot'" [pipeData]="pipeData" [deviationBands]="pipeData.u_factor_deviation_bands" [pipeId]="pipeId"></app-u-factor-deviation-plot>
+            <app-v-factor-deviation-plot *ngSwitchCase="'v_factor_deviation_plot'" [pipeData]="pipeData" [deviationBands]="pipeData.v_factor_deviation_bands" [pipeId]="pipeId"></app-v-factor-deviation-plot>
         </div>
     </div>
 

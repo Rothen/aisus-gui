@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbAccordionModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideHttpClient } from '@angular/common/http';
-import { AISUSStatusService, ApiModule, BASE_PATH } from './modules/openapi';
+import { AISUSStatusService, ApiModule, BASE_PATH, CamerasService, PipesService } from './modules/openapi';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
@@ -108,7 +108,7 @@ export function initializeApp(appInitService: AppInitService) {
     }, {
         provide: APP_INITIALIZER,
         useFactory: initializeApp,
-        deps: [AppInitService, AISUSStatusService],
+        deps: [AppInitService, PipesService, CamerasService, AISUSStatusService],
         multi: true,
     },
         provideHttpClient()

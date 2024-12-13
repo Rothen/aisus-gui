@@ -111,8 +111,8 @@
           "name": "id",
           "required": true,
           "schema": {
-            "type": "string",
-            "minLength": 1
+            "type": "integer",
+            "minimum": 0
           }
         }
       ]
@@ -331,41 +331,7 @@
         ]
       }
     },
-    "/deboarding-pipes/table-data/{id}": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeboardingPipeTableData"
-                }
-              }
-            }
-          },
-          "default": {
-            "$ref": "#/components/responses/DEFAULT_ERROR"
-          }
-        },
-        "summary": "List all Deboarding Pipes",
-        "tags": [
-          "Deboarding Pipes"
-        ]
-      },
-      "parameters": [
-        {
-          "in": "path",
-          "name": "id",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "minimum": 0
-          }
-        }
-      ]
-    },
-    "/deboarding-pipes/{id}": {
+    "/deboarding-pipes/{pipe_id}": {
       "get": {
         "responses": {
           "200": {
@@ -390,11 +356,88 @@
       "parameters": [
         {
           "in": "path",
-          "name": "id",
+          "name": "pipe_id",
           "required": true,
           "schema": {
             "type": "integer",
             "minimum": 0
+          }
+        }
+      ]
+    },
+    "/deboarding-pipes/{pipe_id}/table-data": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeboardingPipeTableData"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all Deboarding Pipes",
+        "tags": [
+          "Deboarding Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "pipe_id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "/deboarding-pipes/{pipe_id}/factor-deviation/{factor_deviation_field}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviationBands"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get deviation factor data",
+        "tags": [
+          "Deboarding Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "pipe_id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        {
+          "in": "path",
+          "name": "factor_deviation_field",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
           }
         }
       ]
@@ -586,6 +629,66 @@
           }
         }
       ]
+    },
+    "/pipes/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pipe"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "List all pipes",
+        "tags": [
+          "Pipes"
+        ]
+      }
+    },
+    "/pipes/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pipe"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/DEFAULT_ERROR"
+          }
+        },
+        "summary": "Get a specific pipe by ID",
+        "tags": [
+          "Pipes"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
     }
   },
   "info": {
@@ -620,6 +723,10 @@
     {
       "name": "Occupancy Plan Pipes",
       "description": "Operations on Occupancy Plan Pipes"
+    },
+    {
+      "name": "Pipes",
+      "description": "Operations on pipes"
     }
   ],
   "openapi": "3.0.2",
@@ -793,6 +900,57 @@
           "timestamp"
         ]
       },
+      "Band": {
+        "type": "object",
+        "properties": {
+          "target_deviation": {
+            "type": "number",
+            "description": "Target deviation"
+          },
+          "upper": {
+            "type": "array",
+            "description": "Upper band",
+            "items": {
+              "type": "number"
+            }
+          },
+          "lower": {
+            "type": "array",
+            "description": "Lower band",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "lower",
+          "target_deviation",
+          "upper"
+        ]
+      },
+      "DeviationBands": {
+        "type": "object",
+        "properties": {
+          "xs": {
+            "type": "array",
+            "description": "X values",
+            "items": {
+              "type": "number"
+            }
+          },
+          "bands": {
+            "type": "array",
+            "description": "ID of the deboarding pipe",
+            "items": {
+              "$ref": "#/components/schemas/Band"
+            }
+          }
+        },
+        "required": [
+          "bands",
+          "xs"
+        ]
+      },
       "DeboardingPipe": {
         "type": "object",
         "properties": {
@@ -804,16 +962,55 @@
             "type": "number",
             "description": "Maximum tolerance for vehicle offset"
           },
-          "test": {
-            "type": "array",
-            "description": "Test field",
-            "items": {}
+          "r_factor_deviation_bands": {
+            "description": "R factor deviation bands",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeviationBands"
+              }
+            ]
+          },
+          "s_factor_deviation_bands": {
+            "description": "S factor deviation bands",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeviationBands"
+              }
+            ]
+          },
+          "t_factor_deviation_bands": {
+            "description": "T factor deviation bands",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeviationBands"
+              }
+            ]
+          },
+          "u_factor_deviation_bands": {
+            "description": "U factor deviation bands",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeviationBands"
+              }
+            ]
+          },
+          "v_factor_deviation_bands": {
+            "description": "V factor deviation bands",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeviationBands"
+              }
+            ]
           }
         },
         "required": [
           "id",
           "max_tol_vehicle_offset",
-          "test"
+          "r_factor_deviation_bands",
+          "s_factor_deviation_bands",
+          "t_factor_deviation_bands",
+          "u_factor_deviation_bands",
+          "v_factor_deviation_bands"
         ]
       },
       "DeboardingPipeTableData": {
@@ -944,6 +1141,36 @@
           "mock_field",
           "some_int",
           "timestamp"
+        ]
+      },
+      "Pipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the pipe"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the pipe"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the pipe"
+          },
+          "cameras": {
+            "type": "array",
+            "description": "List of cameras",
+            "items": {
+              "$ref": "#/components/schemas/Camera"
+            }
+          }
+        },
+        "required": [
+          "cameras",
+          "id",
+          "name",
+          "type"
         ]
       }
     },
