@@ -26,7 +26,11 @@ export class PositionalPlotsComponent implements OnInit {
     @Input({ required: true }) pipeId: number;
     @Input({ required: true }) pipeData: DeboardingPipeData;
 
-    constructor(private route: ActivatedRoute, private deboardingPlotStream: DeboardingPlotStream, private chartJsService: ChartsJsService) { }
+    public xMin = 0;
+    public xMax = 6000;
+    public labels: number[] = [0, 6000];
+
+    constructor(private deboardingPlotStream: DeboardingPlotStream, private chartJsService: ChartsJsService) { }
 
     public ngOnInit(): void {
         this.deboardingPlotStream.connectToMessages(this.pipeId).pipe(
@@ -42,6 +46,11 @@ export class PositionalPlotsComponent implements OnInit {
         }
 
         const date = data.post_processing_output.timestamp;
+
+        this.xMin = Math.ceil((date - 5 * 1000) / 1000) * 1000;
+        this.xMax = Math.ceil((date + 1000) / 1000) * 1000;
+        this.labels = [this.xMin, this.xMax];
+
         const charts: (Chart | null)[] = [
             this.rFactorPlotContainer.chart,
             this.sFactorPlotContainer.chart,
@@ -62,12 +71,6 @@ export class PositionalPlotsComponent implements OnInit {
             const field: PhaseOutputKey = fields[c];
             if (chart == null) {
                 continue;
-            }
-
-            if (chart.options != null && chart.options.scales != null && chart.options.scales['x'] != null) {
-                chart.options.scales['x'].min = Math.ceil((date - 5 * 1000) / 1000) * 1000;
-                chart.options.scales['x'].max = Math.ceil((date + 1000) / 1000) * 1000;
-                chart.data.labels = [chart.options.scales['x'].min, chart.options.scales['x'].max];
             }
 
             for (let i = 0; i < data.phase_outputs.length; i++) {

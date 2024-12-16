@@ -26,6 +26,10 @@ export class ProjectionPlotsComponent implements OnDestroy {
     public maxTolVehicleOffset: number = Infinity;
     public Infinity = Infinity;
 
+    public xMin = 0;
+    public xMax = 6000;
+    public labels: number[] = [0, 6000];
+
     constructor(
         private deboardingPlotStream: DeboardingPlotStream,
         private chartJsService: ChartsJsService
@@ -53,6 +57,11 @@ export class ProjectionPlotsComponent implements OnDestroy {
         }
 
         const date = data.post_processing_output.timestamp;
+
+        this.xMin = Math.ceil((date - 5 * 1000) / 1000) * 1000;
+        this.xMax = Math.ceil((date + 1000) / 1000) * 1000;
+        this.labels = [this.xMin, this.xMax];
+
         const personCharts: (Chart | null)[] = [
             this.tFactorPlotContainer.chart,
             this.vFactorPlotContainer.chart,
@@ -71,12 +80,6 @@ export class ProjectionPlotsComponent implements OnDestroy {
             const field = personFields[c];
             if (chart == null) {
                 continue;
-            }
-
-            if (chart.options != null && chart.options.scales != null && chart.options.scales['x'] != null) {
-                chart.options.scales['x'].min = Math.ceil((date - 5 * 1000) / 1000) * 1000;
-                chart.options.scales['x'].max = Math.ceil((date + 1000) / 1000) * 1000;
-                chart.data.labels = [chart.options.scales['x'].min, chart.options.scales['x'].max];
             }
 
             for (let i = 0; i < data.phase_outputs.length; i++) {
@@ -110,12 +113,6 @@ export class ProjectionPlotsComponent implements OnDestroy {
 
         if (deboardingChart != null) {
             const tol_vehicle_offset = data.tol_vehicle_offset;
-
-            if (deboardingChart.options != null && deboardingChart.options.scales != null && deboardingChart.options.scales['x'] != null) {
-                deboardingChart.options.scales['x'].min = Math.ceil((date - 5 * 1000) / 1000) * 1000;
-                deboardingChart.options.scales['x'].max = Math.ceil((date + 1000) / 1000) * 1000;
-                deboardingChart.data.labels = [deboardingChart.options.scales['x'].min, deboardingChart.options.scales['x'].max];
-            }
 
             if (tol_vehicle_offset != null) {
                 this.chartJsService.addToDatasetIfExistst(

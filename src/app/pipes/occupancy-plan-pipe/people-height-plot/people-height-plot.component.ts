@@ -17,7 +17,10 @@ export class PeopleHeightPlotComponent implements OnInit, OnDestroy {
     @ViewChild(LinePlotComponent) linePlotComponent: LinePlotComponent;
 
     @Input({ required: true }) pipeId: number;
-    // @Input({ required: true }) pipeData: OccupancyPlanPipeData;
+    
+    public xMin = 0;
+    public xMax = 6000;
+    public labels: number[] = [0, 6000];
 
     constructor(private route: ActivatedRoute, private occupancyPlanDataService: OccupancyPlanPlotStream, private chartJsService: ChartsJsService) { }
 
@@ -38,17 +41,16 @@ export class PeopleHeightPlotComponent implements OnInit, OnDestroy {
     }
 
     public updateChartData(data: OccupancyPlanPlotData): void {
-        if (this.linePlotComponent == null || this.linePlotComponent.chart == null) {
+        if (this.linePlotComponent == null || this.linePlotComponent.chart == null || data.people == null) {
             return;
         }
+
         const date = Date.now();
         const chart = this.linePlotComponent.chart;
 
-        if (chart.options != null && chart.options.scales != null && chart.options.scales['x'] != null) {
-            chart.options.scales['x'].min = Math.ceil((date - 5 * 1000) / 1000) * 1000;
-            chart.options.scales['x'].max = Math.ceil((date + 1000) / 1000) * 1000;
-            chart.data.labels = [chart.options.scales['x'].min, chart.options.scales['x'].max];
-        }
+        this.xMin = Math.ceil((date - 5 * 1000) / 1000) * 1000;
+        this.xMax = Math.ceil((date + 1000) / 1000) * 1000;
+        this.labels = [this.xMin, this.xMax];
 
         for (let i = 0; i < data.people.length; i++) {
             const person = data.people[i];

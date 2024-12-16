@@ -34,20 +34,21 @@ export class LinePlotComponent implements OnInit, OnChanges {
     @Input() xMax: any = Infinity;
     @Input() yMin: number = -Infinity;
     @Input() yMax: number = Infinity;
+    @Input() labels: any[] | null = null;
     
     public chart: Chart | null = null;
 
     private xAxisObj: XAxis = {
         ticks: {
-            stepSize: 1000  // Ticks will appear every 10 units
+            stepSize: 1000
         },
         type: 'time',
         time: {
-            tooltipFormat: 'HH:mm:ss', // Format for tooltips
+            tooltipFormat: 'HH:mm:ss'
         },
         title: {
             display: true,
-            text: 'Time',
+            text: 'Time'
         }
     };
 
@@ -88,15 +89,21 @@ export class LinePlotComponent implements OnInit, OnChanges {
         }
 
         this.yAxisObj.title.text = this.yAxisTitle;
-
         this.setOrDeleteFieldIf(this.xMin, this.xAxisObj, 'min', -Infinity);
         this.setOrDeleteFieldIf(this.xMax, this.xAxisObj, 'max', Infinity);
         this.setOrDeleteFieldIf(this.yMin, this.yAxisObj, 'min', -Infinity);
         this.setOrDeleteFieldIf(this.yMax, this.yAxisObj, 'max', Infinity);
-        this.chart.update();
+        this.setOrDeleteFieldIf(this.labels, this.chart.data, 'labels', null);
+
+        if (this.chart.options.scales != null) {
+            this.chart.options.scales['x'] = this.xAxisObj;
+            this.chart.options.scales['y'] = this.yAxisObj;
+        }
+
+        this.chart.update('none');
     }
 
-    private setOrDeleteFieldIf(value: any, obj: any, field: any, nullValue: any): void {
+    private setOrDeleteFieldIf(value: any, obj: any, field: any, nullValue: any = null): void {
         if (value == nullValue) {
             delete obj[field];
         } else {
