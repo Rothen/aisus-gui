@@ -1,0 +1,19 @@
+{
+    "name": "Angular dev container",
+    "dockerFile": "Dockerfile",
+    "appPort": [
+        4000,
+        4200,
+        4433,
+        8080,
+        9876
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Angular.ng-template"
+            ]
+        }
+    },
+    "postCreateCommand": "npm install --include=dev"
+}
