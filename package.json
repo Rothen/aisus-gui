@@ -8,8 +8,7 @@
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "download-openapi": "curl -O http://localhost:5000/aisus-openapi.json",
-        "gs": "openapi-generator-cli generate -i aisus-openapi.json -g typescript-angular -o src/app/modules/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true --generate-alias-as-model --openapi-generator-ignore-list \"README.md,.gitignore,.openapi-generator-ignore,git_push.sh,.openapi-generator\"",
-        "gswc": "openapi-generator-cli generate -g typescript-angular -c openapi-config.json"
+        "gs": "openapi-generator-cli generate -i aisus-openapi.json -g typescript-angular -o src/app/modules/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true --generate-alias-as-model --openapi-generator-ignore-list \"README.md,.gitignore,.openapi-generator-ignore,git_push.sh,.openapi-generator\""
     },
     "private": true,
     "dependencies": {
